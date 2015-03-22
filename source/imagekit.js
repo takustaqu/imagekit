@@ -8,14 +8,20 @@ var imagekit = {};
 $i = imagekit;
 
 
-
-
 /*
 
 imagekit.getImageData
 
 */
 
+
+
+/**
+ * createCanvas
+ * @param {number} width - Element width.
+ * @param {number} height - Element heights.
+ * @return {object} - { el:canvas DOM Element , ctx:context('2d') }
+ */
 
 imagekit.createCanvas = function(width,height){
 
@@ -38,6 +44,11 @@ imagekit.createCanvas = function(width,height){
   }//imagekit.createCanvas;
 
 
+
+/**
+ * getImageData
+ */
+
 imagekit.getImageData = function($el){
 
     //Create temporary elements.
@@ -52,14 +63,14 @@ imagekit.getImageData = function($el){
 
 
 
-/*
+/**
+ * convertToAlpha
 
-mode:
-  - grayscale
-  - linear
+ mode:
+   - grayscale
+   - linear
 
-*/
-
+ */
 
 imagekit.convertToAlpha = function($el,mode,fillcolor){
 
@@ -67,14 +78,6 @@ imagekit.convertToAlpha = function($el,mode,fillcolor){
     var source = imagekit.getImageData($el);
 
     //create temporary canvas element.
-
-      // var tmp = document.createElement('canvas');
-      //     tmp.width = source.width;
-      //     tmp.height = source.height;
-      //
-      // //get context.
-      // var ctx = tmp.getContext('2d');
-
     var tmp = imagekit.createCanvas(source.width,source.height)
 
     //make getImageData alias.
@@ -126,6 +129,9 @@ imagekit.convertToAlpha = function($el,mode,fillcolor){
   }//imagekit.convertToAlpha
 
 
+/**
+ * applyAlphaToImageElement
+*/
 
 imagekit.applyAlphaToImageElement = function($src,$asrc,callback){
 
@@ -145,3 +151,22 @@ imagekit.applyAlphaToImageElement = function($src,$asrc,callback){
     $src.src = tmp.el.toDataURL();
 
   }//imagekit.applyAlphaToImageElement;
+
+
+imagekit.MakeSprite = function($src){
+    //create temporary canvas.
+    this.$src = $src;
+  }
+
+imagekit.MakeSprite.prototype.getSprite = function(x,y,w,h){
+
+    //Create temporary canvas in target cell sizes.
+    var tmp = imagekit.createCanvas(w,h);
+
+        //draw cell to canvas.
+        tmp.ctx.drawImage(this.$src,x,y,w,h,0,0,w,h)
+
+    //return result.
+    return tmp.el.toDataURL();
+
+  }

@@ -14,7 +14,9 @@
 
 <script>
 
-var image = $i.convertToAlpha($("#alpha").get(0));
+setTimeout(function(){
+  var image = $i.applyAlphaToImageElement($("#base").get(0),$("#alpha").get(0));
+},100)
 
 </script>
 

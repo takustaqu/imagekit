@@ -125,8 +125,23 @@ imagekit.convertToAlpha = function($el,mode,fillcolor){
 
   }//imagekit.convertToAlpha
 
-imagekit.applyAlphaToImageElement = function(source,alpha,callback){
 
 
+imagekit.applyAlphaToImageElement = function($src,$asrc,callback){
+
+    //create temporary canvas.
+    var tmp = imagekit.createCanvas($src.width,$src.height);
+
+    var alphaimg = document.createElement('img');
+    alphaimg.src = $asrc.src;
+
+    imagekit.convertToAlpha(alphaimg);
+
+    //Set image to temporary canvas.
+    tmp.ctx.drawImage(alphaimg,0,0);
+    tmp.ctx.globalCompositeOperation = 'source-in';
+    tmp.ctx.drawImage($src,0,0);
+
+    $src.src = tmp.el.toDataURL();
 
   }//imagekit.applyAlphaToImageElement;

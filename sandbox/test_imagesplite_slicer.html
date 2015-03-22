@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="jquery.js"></script>
+  <script src="../source/imagekit.js"></script>
+  <title></title>
+
+</head>
+<body>
+
+<img src="images/four_elems_alpha_channel.png" alt="" id="alpha">
+<img src="images/four_elems_jpeg100.jpg" alt="" id="original">
+<img src="images/four_elems_jpeg100.jpg" alt="" id="base">
+
+<script>
+
+setTimeout(function(){
+
+  var image = $i.applyAlphaToImageElement($("#base").get(0),$("#alpha").get(0));
+
+  var spr = new imagekit.MakeSprite($("#base").get(0));
+
+  function s(arg){
+    return spr.getSprite(arg[0],arg[1],arg[2],arg[3])
+  }
+
+  var spriteJSON = {
+     apple : s([0,0,246,146]),
+       sky : s([246,0,246,146]),
+    forest : s([0,146,246,147]),
+     water : s([246,146,246,147])
+  }
+
+  $.each(spriteJSON,function(){
+
+    $("body").append($("<img />").attr("src",this).css("background-color","#CCC"));
+
+  });
+
+
+
+
+
+},100)
+
+</script>
+
+</body>
+</html>

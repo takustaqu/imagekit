@@ -170,3 +170,31 @@ imagekit.MakeSprite.prototype.getSprite = function(x,y,w,h){
     return tmp.el.toDataURL();
 
   }
+
+imagekit.isLoaded = function($elem,callback){
+
+  var count = $elem.length;
+  console.log(count);
+  var loadCount = 0;
+
+  var check = function(){
+    if(count == loadCount ){
+      console.log(count == loadCount , count , loadCount)
+      callback();
+      return true;
+    }
+  }
+
+  $elem.each(function(){
+    var $img = $("<img />").on({"load":function(){
+        if ($img[0].width > 0){
+          loadCount++;
+          check();
+        }else{
+          setTimeout(function(){
+            $img.trigger("load")
+          },50)//retry after 50ms
+        }
+      }}).attr("src",$(this).attr("src"));
+  })
+}
